@@ -114,12 +114,12 @@ class InventoryUi {
             <div class="editIcon" data-id=${prodcut.id}>
                 <svg class="icon">
                 <use
-                    xlink:href="../assets/images/sprite.svg#editIcon"
+                    xlink:href="./assets/images/sprite.svg#editIcon"
                 ></use>
                 </svg>
             </div>
             <div class="deleteIcon" data-id=${prodcut.id}>
-                <img src="../assets/images/deleteIcon.svg" alt="deleteIcon" />
+                <img src="./assets/images/deleteIcon.svg" alt="deleteIcon" />
             </div>
             </div>
         </td>

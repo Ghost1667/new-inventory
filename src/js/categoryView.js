@@ -83,10 +83,10 @@ class CategoryUi {
         </div>
         <div class="category__item__icons">
             <svg class="icon editCategoryIcon" data-id=${category.id}>
-                <use xlink:href="../assets/images/sprite.svg#editIcon"></use>
+                <use xlink:href="./assets/images/sprite.svg#editIcon"></use>
             </svg>
             <img
-                src="../assets/images/deleteIcon.svg"
+                src="./assets/images/deleteIcon.svg"
                 alt="delete Icon"
                 class="deleteBtnCategory"
                 data-id=${category.id}

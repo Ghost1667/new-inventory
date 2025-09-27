@@ -11,19 +11,19 @@ class DashboardUi {
         <div class="dashboardUi__main">
 
         <div class="dashboardUi__main__items">
-            <img src="../assets/images/Cancel.svg" alt="Cancel Item" />
+            <img src="./assets/images/Cancel.svg" alt="Cancel Item" />
             <p class="dashboardUi__notAvailable">${this.calculateProducts()}</p>
             <p>Number of Producs</p>
         </div>
 
         <div class="dashboardUi__main__items">
-            <img src="../assets/images/Quantity.svg" alt="quantity" />
+            <img src="./assets/images/Quantity.svg" alt="quantity" />
             <p class="dashboardUi__quantity">${this.calculateQuantity()}</p>
             <p>Total Quantity</p>
         </div>
 
         <div class="dashboardUi__main__items">
-            <img src="../assets/images/Sales.svg" alt="salesItem" />
+            <img src="./assets/images/Sales.svg" alt="salesItem" />
             <p class="dashboardUi__sales">$${this.calculatePrice()}</p>
             <p>Total Value in Hand</p>
         </div>
@@ -31,7 +31,7 @@ class DashboardUi {
  
 
         <div class="dashboardUi__main__items">
-            <img src="../assets/images/Categoriescolor.svg" alt="category" />
+            <img src="./assets/images/Categoriescolor.svg" alt="category" />
             <p class="dashboardUi__notAvailable">${this.totalCategories()}</p>
             <p>Total Categories</p>
         </div>
