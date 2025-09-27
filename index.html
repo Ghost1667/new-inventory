@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../src/css/font.css" />
+    <link rel="stylesheet" href="../src/css/style.css" />
+    <title>Inventory</title>
+  </head>
+  <body>
+    <div class="app container">
+      <!--------- SideBar -------->
+
+      <div class="sideBar-ontoggle --hidden">
+         <img src="ukens.png" alt="My Website Logo" class="logo">
+
+        <div class="sideBar__icons">
+          <div class="sideBar__dashboard sideBar__icon --selectedBtnUi">
+            <svg class="icon">
+              <use xlink:href="../assets/images/sprite.svg#homeIcon"></use>
+            </svg>
+            <p>Dashboard</p>
+          </div>
+          <div class="sideBar__inventory sideBar__icon">
+            <svg class="icon">
+              <use xlink:href="../assets/images/sprite.svg#productIcon"></use>
+            </svg>
+            <p>Inventory</p>
+          </div>
+          <div class="sideBar__setting sideBar__icon">
+            <img src="../assets/images/setting.svg" alt="setting icon" />
+            <p>Categories</p>
+          </div>
+        </div>
+      </div>
+      <div class="sideBar-ontoggle-backdrop --hidden"></div>
+
+      <div class="sideBar">
+        <svg class="icon logo">
+          <use xlink:href="../assets/images/sprite.svg#logo"></use>
+        </svg>
+
+        <div class="sideBar__icons">
+          <div class="sideBar__dashboard sideBar__icon --selectedBtnUi">
+            <svg class="icon">
+              <use xlink:href="../assets/images/sprite.svg#homeIcon"></use>
+            </svg>
+            <p>Dashboard</p>
+          </div>
+          <div class="sideBar__inventory sideBar__icon">
+            <svg class="icon">
+              <use xlink:href="../assets/images/sprite.svg#productIcon"></use>
+            </svg>
+            <p>Inventory</p>
+          </div>
+          <div class="sideBar__setting sideBar__icon">
+            <img src="../assets/images/Categories.svg" alt="setting icon" />
+            <p>Categories</p>
+          </div>
+        </div>
+      </div>
+
+      <!--------- Header --------->
+
+      <header class="header">
+        <form class="header__search__form">
+          <div class="header__search">
+            <svg class="icon">
+              <use xlink:href="../assets/images/sprite.svg#search"></use>
+            </svg>
+            <input
+              type="text"
+              placeholder="Search product"
+              class="searchBarInput"
+            />
+          </div>
+        </form>
+        <img
+          src="../assets/images/burger.svg"
+          alt="menu icon"
+          class="menu-toggle"
+        />
+      </header>
+
+      <div class="main"></div>
+
+      <!-------- Main App (Inventory)-------->
+      <!-- <div class="inventory-app">
+          <div class="product-section__header">
+            <h1>Products</h1>
+            <div class="product-section__header__buttons">
+              <div class="addProBtn">Add Product</div>
+              <div class="filterBtn">
+                <img src="../assets/images/filterIcon.svg" alt="filter Icon" />
+                <p>Filters</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="product-section">
+            <table>
+              <tr class="table__title">
+                <td>Products</td>
+                <td>Quantity</td>
+                <td>Price</td>
+                <td>Availability</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>FIRST COLUMN</td>
+                <td>SECOND COLUMN</td>
+                <td>THIRD COLUMN</td>
+                <td>FOURTH COLUMN</td>
+                <td class="editTableSection">
+                  <div class="table__icons">
+                    <div class="editIcon">
+                      <svg class="icon">
+                        <use
+                          xlink:href="../assets/images/sprite.svg#editIcon"
+                        ></use>
+                      </svg>
+                    </div>
+                    <div class="deleteIcon">
+                      <img src="../assets/images/deleteIcon.svg" alt="" />
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div> -->
+
+      <!-- add Product -->
+      <div class="addProSection --hidden">
+        <div class="addProModal">
+          <h1 class="addProModal__title">New Product</h1>
+          <form class="addProModal__form">
+            <div class="addProModal__form__inputs">
+              <p>Product Name</p>
+              <input
+                type="text"
+                placeholder="Enter product name"
+                class="productNameInput"
+              />
+            </div>
+            <div class="addProModal__form__inputs">
+              <p>Category</p>
+              <select name="category" id="categoryInput">
+                <option value="">Select product category</option>
+                <option value="no-cat">No Category</option>
+              </select>
+            </div>
+            <div class="addProModal__form__inputs">
+              <p>Quantity</p>
+              <input
+                type="number"
+                placeholder="Enter product quantity"
+                class="productQuantityInput"
+              />
+            </div>
+            <div class="addProModal__form__inputs">
+              <p>Price</p>
+              <input
+                type="number"
+                placeholder="Enter buying price"
+                class="productPriceInput"
+              />
+            </div>
+            <div class="addProModal__form__buttons">
+              <button class="addProModalCancelBtn">Discard</button>
+              <button class="addProModalSubmitBtn">Add Product</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-------- Categoty Ui ---------------->
+      <!-- <div class="categoryUi">
+          <div class="category__header">
+            <h1>Categories</h1>
+            <button class="addCategoryBtn">Add Category</button>
+          </div>
+          <div class="category__items">
+            <div class="category__item">
+              <div class="category__item__text">
+                <h2 class="title">Cateogry 1</h2>
+                <p class="description">
+                  jfdjkjdksjkfldsjfdks f dkfjddfj klf jdkf djkdfj k
+                </p>
+              </div>
+              <div class="category__item__icons">
+                <svg class="icon editCategoryIcon">
+                  <use xlink:href="../assets/images/sprite.svg#editIcon"></use>
+                </svg>
+                <img
+                  src="../assets/images/deleteIcon.svg"
+                  alt="delete Icon"
+                  class="deleteBtnCategory"
+                />
+              </div>
+            </div>
+          </div>
+        </div> -->
+
+      <div class="EditCategorySection --hidden">
+        <div class="EditCatMod">
+          <h1 class="EditCatMod__title">Edit Product</h1>
+          <form class="EditCatMod__form">
+            <input
+              type="text"
+              name="editTitle"
+              id="editTitle"
+              placeholder="Edit Title"
+            />
+            <input
+              type="text"
+              name="editDescription"
+              id="editDescription"
+              placeholder="Edit Description"
+            />
+
+            <div class="EditCatMod__btns">
+              <button class="cancelBtnEdit">Discard</button>
+              <button class="submitBtnEdit">Submit</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!--------------------------  Dashboard View(Ui)   ------------------------------->
+      <!-- <div class="dashboardUi">
+          <div class="dashboardUi__header">
+            <h1>Overview</h1>
+          </div>
+          <div class="dashboardUi__main">
+            <div class="dashboardUi__main__items">
+              <img src="../assets/images/Quantity.svg" alt="quantity" />
+              <p class="dashboardUi__quantity">868</p>
+              <p>Quantity in Hand</p>
+            </div>
+
+            <div class="dashboardUi__main__items">
+              <img src="../assets/images/Sales.svg" alt="salesItem" />
+              <p class="dashboardUi__sales">$1434</p>
+              <p>Total Value in Hand</p>
+            </div>
+
+            <div class="dashboardUi__main__items">
+              <img src="../assets/images/Cancel.svg" alt="Cancel Item" />
+              <p class="dashboardUi__notAvailable">32</p>
+              <p>Not availabales</p>
+            </div>
+
+            <div class="dashboardUi__main__items">
+              <img src="../assets/images/Categoriescolor.svg" alt="category" />
+              <p class="dashboardUi__notAvailable">54</p>
+              <p>Total Categories</p>
+            </div>
+          </div>
+        </div> -->
+    </div>
+    <script src="../src/js/app.js" type="module"></script>
+  </body>
+</html>
