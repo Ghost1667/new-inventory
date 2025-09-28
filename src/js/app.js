@@ -1,11 +1,15 @@
 import DashboardUi from "./Dashboard.js";
 import InventoryUi from "./InventoryView.js";
 import CategoryUi from "./categoryView.js";
+import Store from "./store.js";
+import SalesUi from "./sales.js";
+
 
 // -------------------------- Sidebar Btns -----------------------------
 const dashboardBtns = [...document.querySelectorAll(".sideBar__dashboard")];
 const inventoryBtns = [...document.querySelectorAll(".sideBar__inventory")];
 const categoryBtns = [...document.querySelectorAll(".sideBar__setting")];
+const salesBtns = [...document.querySelectorAll(".sideBar__sales")]; // handles mobile + main if present
 
 // --------------------------  Sidebar-Menu  ---------------------------------
 const menuToggle = document.querySelector(".menu-toggle");
@@ -20,89 +24,171 @@ document.addEventListener("DOMContentLoaded", () => {
   app.addEventListeners();
 
   CategoryUi.updateCategoryOptions();
-  DashboardUi.setApp(); // Updating the ui with the selected default page
+  DashboardUi.setApp(); // show dashboard by default
+
+  SalesUi.setApp(); // prepare sales page (hidden by default)
+ Store.setApp(); // prepare sales page (hidden by default)
+
 });
 
 class App {
   addEventListeners() {
-    // Adding event listener to each button when they are clicked
+    // Dashboard buttons (desktop + mobile)
     dashboardBtns.forEach((btn) => {
       btn.addEventListener("click", (e) => {
         this.dashboardBtnLogic(e);
         this.hideMenu();
       });
     });
+
+    // Inventory buttons
     inventoryBtns.forEach((btn) => {
       btn.addEventListener("click", (e) => {
         this.inventoryBtnLogic(e);
         this.hideMenu();
       });
     });
+
+    // Category buttons
     categoryBtns.forEach((btn) => {
       btn.addEventListener("click", (e) => {
         this.categoryBtnLogic(e);
         this.hideMenu();
       });
     });
-    menuToggle.addEventListener("click", () => {
-      this.menuToggleLogic();
+
+    // Sales buttons (desktop + mobile)
+    salesBtns.forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        this.salesBtnLogic(e);
+        this.hideMenu();
+        SalesUi.setApp();
+
+
+
+        
+      });
     });
-    sideBarBackdrop.addEventListener("click", () => {
-      this.hideMenu();
-    });
-    searchBar.addEventListener("input", () => {
-      this.searchInputLogic();
-      this.hideMenu();
-      inventoryBtns.forEach((btn) => btn.classList.add("--selectedBtnUi"));
-    });
+
+    // Menu toggle (mobile)
+    if (menuToggle) {
+      menuToggle.addEventListener("click", () => {
+        this.menuToggleLogic();
+      });
+    }
+
+    if (sideBarBackdrop) {
+      sideBarBackdrop.addEventListener("click", () => {
+        this.hideMenu();
+      });
+    }
+
+    if (searchBar) {
+      searchBar.addEventListener("input", () => {
+        this.searchInputLogic();
+        this.hideMenu();
+        inventoryBtns.forEach((btn) => btn.classList.add("--selectedBtnUi"));
+      });
+    }
   }
 
+  // Search behaviour -> show inventory and filter
   searchInputLogic() {
-    InventoryUi.setApp(); // Updating the ui with the Inventory page
+    InventoryUi.setApp();
     InventoryUi.seachLogic(searchBar.value);
-    this.removeCurrentSelectedBtn(); // Removing all previous selected button
+    this.removeCurrentSelectedBtn();
   }
 
   dashboardBtnLogic(event) {
-    DashboardUi.setApp(); // Updating the ui with the dashboard page
-    console.log(searchBar.value);
-
-    searchBar.value = ""; // Reseting SearchBar
-    this.removeCurrentSelectedBtn(); // Removing all previous selected button
-    event.target.classList.add("--selectedBtnUi"); // Adding the selected (style) to the dashboard button
+    DashboardUi.setApp();
+    searchBar.value = "";
+    this.removeCurrentSelectedBtn();
+    // use event.currentTarget so the wrapper div is selected even if svg/p was clicked
+    if (event.currentTarget) event.currentTarget.classList.add("--selectedBtnUi");
   }
 
   inventoryBtnLogic(event) {
-    InventoryUi.setApp(); // Updating the ui with the Inventory page
-    searchBar.value = ""; // Reseting SearchBar
-    this.removeCurrentSelectedBtn(); // Removing all previous selected button
-    event.target.classList.add("--selectedBtnUi"); // Adding the selected (style) to the dashboard button
+    InventoryUi.setApp();
+    searchBar.value = "";
+    this.removeCurrentSelectedBtn();
+    if (event.currentTarget) event.currentTarget.classList.add("--selectedBtnUi");
   }
 
   categoryBtnLogic(event) {
-    CategoryUi.setApp(); // Updating the ui with the Inventory page
-    searchBar.value = ""; // Reseting SearchBar
-    this.removeCurrentSelectedBtn(); // Removing all previous selected button
-    event.target.classList.add("--selectedBtnUi"); // Adding the selected (style) to the dashboard button
+    CategoryUi.setApp();
+    searchBar.value = "";
+    this.removeCurrentSelectedBtn();
+    if (event.currentTarget) event.currentTarget.classList.add("--selectedBtnUi");
   }
 
-  menuToggleLogic(event) {
+  // New: show the sales page only
+  salesBtnLogic(event) {
+    // hide other UI modules (some modules like DashboardUi.setApp may also manipulate DOM)
+    this.removeCurrentSelectedBtn();
+    if (event.currentTarget) event.currentTarget.classList.add("--selectedBtnUi");
+
+    // Hide built-in UIs (these selectors should match your HTML structure)
+    const dashboardUi = document.querySelector(".dashboardUi");
+    const inventoryApp = document.querySelector(".inventory-app");
+    const categoriesUi = document.querySelector(".categoryUi");
+    const salesApp = document.querySelector(".sales-app");
+
+    if (dashboardUi) dashboardUi.classList.add("--hidden");
+    if (inventoryApp) inventoryApp.classList.add("--hidden");
+    if (categoriesUi) categoriesUi.classList.add("--hidden");
+    if (salesApp) salesApp.classList.remove("--hidden");
+  }
+
+  menuToggleLogic() {
     sideBarOnToggle.classList.remove("--hidden");
     sideBarBackdrop.classList.remove("--hidden");
   }
 
   hideMenu() {
-    sideBarOnToggle.classList.add("--hidden");
-    sideBarBackdrop.classList.add("--hidden");
+    if (sideBarOnToggle) sideBarOnToggle.classList.add("--hidden");
+    if (sideBarBackdrop) sideBarBackdrop.classList.add("--hidden");
   }
 
   removeCurrentSelectedBtn() {
-    // This method will remove all the selected btns in the sidebar!
-    [dashboardBtns, inventoryBtns, categoryBtns].forEach((btns) => {
+    // Remove selected class from all known sidebar buttons
+    [dashboardBtns, inventoryBtns, categoryBtns, salesBtns].forEach((btns) => {
       btns.forEach((btn) => {
-        // Removing Btn selected class
         btn.classList.remove("--selectedBtnUi");
       });
     });
   }
 }
+
+
+
+// Select all the sections
+const sections = document.querySelectorAll(
+  ".dashboardUi, .inventory-app, .categoryUi, .sales-app"
+);
+
+// Sidebar buttons
+const dashboardBtn = document.querySelectorAll(".sideBar__dashboard");
+const inventoryBtn = document.querySelectorAll(".sideBar__inventory");
+const categoryBtn = document.querySelectorAll(".sideBar__setting");
+const salesBtn = document.querySelectorAll(".sideBar__sales");
+
+// Helper function to switch pages
+function showSection(sectionClass) {
+  sections.forEach(sec => sec.classList.add("--hidden")); // hide all
+  const target = document.querySelector(sectionClass);
+  if (target) target.classList.remove("--hidden"); // show only one
+}
+
+// Hook up buttons (works for both sidebars)
+dashboardBtn.forEach(btn =>
+  btn.addEventListener("click", () => showSection(".dashboardUi"))
+);
+inventoryBtn.forEach(btn =>
+  btn.addEventListener("click", () => showSection(".inventory-app"))
+);
+categoryBtn.forEach(btn =>
+  btn.addEventListener("click", () => showSection(".categoryUi"))
+);
+salesBtn.forEach(btn =>
+  btn.addEventListener("click", () => showSection(".sales-app"))
+);

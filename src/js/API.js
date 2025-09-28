@@ -1,37 +1,33 @@
+// API.js
 class Storage {
+  // --- Products ---
   getProducts() {
-    // Getting all of the products
     const allData = JSON.parse(localStorage.getItem("InventoryProducts")) || [];
-    this.sortArray(allData); // Sorting the Products (newest first by default)
+    this.sortArray(allData);
     return allData;
   }
 
-  getCategories() {
-    // Getting all of the categories
-    const allData =
-      JSON.parse(localStorage.getItem("Inventorycategories")) || [];
+  saveProducts(productsArray) {
+    localStorage.setItem("InventoryProducts", JSON.stringify(productsArray));
+  }
 
-    this.sortArray(allData); // Sorting the Categories (newest first by default)
+  getCategories() {
+    const allData = JSON.parse(localStorage.getItem("Inventorycategories")) || [];
+    this.sortArray(allData);
     return allData;
   }
 
   saveCategorie(data) {
-    // Getting all of the categories
     const allCategories = this.getCategories();
     if (data.id != 0) {
-      // Finding the category that already exists
       const existed = allCategories.find((category) => category.id == data.id);
-
       existed.title = data.title;
       existed.description = data.description;
       existed.updated = new Date().toISOString();
     } else {
-      // Finding if the data already exist
       const existed = allCategories.find(
-        (category) =>
-          category.title.toLowerCase().trim() == data.title.toLowerCase().trim()
+        (category) => category.title.toLowerCase().trim() == data.title.toLowerCase().trim()
       );
-
       if (existed) {
         existed.title = data.title;
         existed.description = data.description;
@@ -39,7 +35,6 @@ class Storage {
       } else {
         data.id = new Date().getTime();
         data.updated = new Date().toISOString();
-
         allCategories.push(data);
       }
     }
@@ -47,23 +42,18 @@ class Storage {
   }
 
   saveProduct(data) {
-    // Getting all of the Data
     const allProducts = this.getProducts();
     if (data.id != 0) {
-      const existed = allProducts.find((product) => product.id == data.id); // Finding the data that already exist
-
+      const existed = allProducts.find((product) => product.id == data.id);
       existed.title = data.title;
       existed.category = data.category;
       existed.quantity = data.quantity;
       existed.price = data.price;
       existed.updated = new Date().toISOString();
     } else {
-      // Finding if the data already exist
       const existed = allProducts.find(
-        (product) =>
-          product.title.toLowerCase().trim() == data.title.toLowerCase().trim()
+        (product) => product.title.toLowerCase().trim() == data.title.toLowerCase().trim()
       );
-
       if (existed) {
         existed.title = data.title;
         existed.category = data.category;
@@ -80,31 +70,68 @@ class Storage {
   }
 
   sortArray(array) {
-    // Sorting array by newest
     array.sort((a, b) => (new Date(a.updated) < new Date(b.updated) ? 1 : -1));
   }
 
   deleteProduct(id) {
-    // Getting all the Products
     const allProducts = this.getProducts();
-    // Filtering the Products
     const filteredProducts = allProducts.filter((product) => product.id != id);
-    // Update the Storage
     localStorage.setItem("InventoryProducts", JSON.stringify(filteredProducts));
   }
 
   deleteCategory(id) {
-    // Getting all the Products
     const allCategories = this.getCategories();
-    // Filtering the Products
-    const filteredProducts = allCategories.filter(
-      (category) => category.id != id
-    );
-    // Update the Storage
-    localStorage.setItem(
-      "Inventorycategories",
-      JSON.stringify(filteredProducts)
-    );
+    const filteredProducts = allCategories.filter((category) => category.id != id);
+    localStorage.setItem("Inventorycategories", JSON.stringify(filteredProducts));
+  }
+
+  // --- Sales: new methods ---
+  getSales() {
+    const allSales = JSON.parse(localStorage.getItem("InventorySales")) || [];
+    this.sortArray(allSales);
+    return allSales;
+  }
+
+  saveSale(sale) {
+    const allSales = this.getSales();
+    sale.id = sale.id || new Date().getTime();
+    sale.updated = new Date().toISOString();
+    allSales.push(sale);
+    localStorage.setItem("InventorySales", JSON.stringify(allSales));
+  }
+
+  // ✅ NEW: Sell product (reduces stock + saves sale)
+  sellProduct(productId, quantitySold) {
+    const allProducts = this.getProducts();
+    const product = allProducts.find((p) => p.id == productId);
+
+    if (!product) {
+      return { success: false, message: "Product not found" };
+    }
+
+    if (product.quantity < quantitySold) {
+      return { success: false, message: "Not enough stock available" };
+    }
+
+    // Deduct stock
+    product.quantity -= quantitySold;
+    product.updated = new Date().toISOString();
+
+    // Save updated products
+    this.saveProducts(allProducts);
+
+    // Save sale record
+    const sale = {
+      productId: product.id,
+      title: product.title,
+      quantity: quantitySold,
+      price: product.price,
+      total: product.price * quantitySold,
+      date: new Date().toISOString(),
+    };
+    this.saveSale(sale);
+
+    return { success: true, message: "Sale recorded successfully", sale };
   }
 }
 

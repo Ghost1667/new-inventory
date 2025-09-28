@@ -886,3 +886,212 @@ img {
     grid-template-columns: repeat(4, 1fr);
   }
 }
+
+
+
+
+
+/* ===== SALES SECTION (Improved) ===== */
+.sales-app {
+  padding: 28px;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+  margin: 24px;
+  font-family: "Segoe UI", sans-serif;
+  font-size: 1rem;
+}
+
+.sales-app h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #222;
+  border-bottom: 2px solid #4a90e2;
+  padding-bottom: 10px;
+}
+
+.sales-form {
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sales-form__inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sales-form label {
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 6px;
+  color: #333;
+}
+
+.sales-form input {
+  padding: 12px 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  font-size: 1rem;
+}
+
+.sales-form input:focus {
+  border-color: #4a90e2;
+  box-shadow: 0 0 5px rgba(74, 144, 226, 0.35);
+}
+
+.sales-form button {
+  align-self: flex-start;
+  background: #4a90e2;
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  padding: 12px 22px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.25s ease;
+  font-size: 1rem;
+}
+
+.sales-form button:hover {
+  background: #357ab8;
+}
+
+/* Sales History */
+.sales-history h2 {
+  margin-bottom: 14px;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #222;
+}
+
+.sales-history table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  font-size: 1rem;
+}
+
+.sales-history table tr.table__title td {
+  font-weight: 700;
+  background: #f0f4f9;
+  color: #333;
+  padding: 14px;
+}
+
+.sales-history td {
+  padding: 12px 14px;
+  border: 1px solid #ddd;
+}
+
+.sales-history tr:nth-child(even) {
+  background: #fafafa;
+}
+
+
+
+
+/* General page */
+.sales-app {
+  max-width: 500px;
+  margin: 40px auto;
+  padding: 30px;
+  background-color: #ffffff; /* clean white */
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08); /* subtle shadow */
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+}
+
+/* Heading */
+.sales-app h2 {
+  text-align: center;
+  color: #1E90FF; /* light blue heading */
+  margin-bottom: 20px;
+}
+
+/* Form styling */
+.sales-app form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.sales-app label {
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+.sales-app input[type="number"],
+.sales-app select {
+  padding: 10px 12px;
+  border: 1px solid #d0d0d0;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: border 0.2s;
+}
+
+.sales-app input[type="number"]:focus,
+.sales-app select:focus {
+  border-color: #1E90FF;
+  outline: none;
+}
+
+/* Button */
+.sales-app button[type="submit"] {
+  background-color: #1E90FF;
+  color: #fff;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.sales-app button[type="submit"]:hover {
+  background-color: #1C86EE; /* slightly darker blue on hover */
+}
+
+/* Messages */
+#salesMessage {
+  margin-top: 10px;
+  font-weight: 500;
+  text-align: center;
+}
+
+/* Sales history */
+#salesHistory {
+  margin-top: 25px;
+}
+
+#salesHistory h3 {
+  color: #1E90FF;
+  border-bottom: 1px solid #d0d0d0;
+  padding-bottom: 5px;
+  margin-bottom: 10px;
+}
+
+#salesHistory ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+#salesHistory li {
+  background-color: #f0f8ff; /* very light blue for items */
+  margin-bottom: 8px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+
