@@ -1,4 +1,5 @@
-// API.js
+// PASTE THIS INTO API.js
+
 class Storage {
   // --- Products ---
   getProducts() {
@@ -98,40 +99,6 @@ class Storage {
     sale.updated = new Date().toISOString();
     allSales.push(sale);
     localStorage.setItem("InventorySales", JSON.stringify(allSales));
-  }
-
-  // ✅ NEW: Sell product (reduces stock + saves sale)
-  sellProduct(productId, quantitySold) {
-    const allProducts = this.getProducts();
-    const product = allProducts.find((p) => p.id == productId);
-
-    if (!product) {
-      return { success: false, message: "Product not found" };
-    }
-
-    if (product.quantity < quantitySold) {
-      return { success: false, message: "Not enough stock available" };
-    }
-
-    // Deduct stock
-    product.quantity -= quantitySold;
-    product.updated = new Date().toISOString();
-
-    // Save updated products
-    this.saveProducts(allProducts);
-
-    // Save sale record
-    const sale = {
-      productId: product.id,
-      title: product.title,
-      quantity: quantitySold,
-      price: product.price,
-      total: product.price * quantitySold,
-      date: new Date().toISOString(),
-    };
-    this.saveSale(sale);
-
-    return { success: true, message: "Sale recorded successfully", sale };
   }
 }
 

@@ -1,4 +1,5 @@
-// Store.js
+// PASTE THIS INTO Store.js
+
 import Storage from "./API.js";
 
 class Store {
@@ -25,7 +26,7 @@ class Store {
   }
 
   saveCategory(category) {
-    Storage.saveCategory(category); // fixed typo
+    Storage.saveCategory(category);
   }
 
   deleteCategory(id) {
@@ -37,8 +38,10 @@ class Store {
     return Storage.getSales();
   }
 
-  // Sell a product (integrates stock reduction and sale recording)
-  sellProduct(productId, quantity) {
+  //
+  // ✅ THIS IS THE ONE, TRUE sellProduct FUNCTION
+  //
+  sellProduct(productId, quantity, remarks) {
     const products = this.getProducts();
     const product = products.find(p => p.id == productId);
 
@@ -56,7 +59,7 @@ class Store {
 
     // Reduce stock
     product.quantity -= quantity;
-    this.saveProducts(products);
+    this.saveProducts(products); // This calls API.js
 
     // Create sale record
     const sale = {
@@ -66,11 +69,12 @@ class Store {
       price: product.price,
       qty: quantity,
       total: product.price * quantity,
-      date: new Date().toLocaleString()
+      date: new Date().toLocaleString(),
+      remarks: remarks // <-- THE REMARK IS NOW ADDED
     };
 
     // Save sale to storage
-    Storage.saveSale(sale);
+    Storage.saveSale(sale); // This calls API.js
 
     return sale;
   }

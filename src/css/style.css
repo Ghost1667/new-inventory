@@ -1,4 +1,4 @@
-/* ? -------  Trouble shoot checking section --------- */
+/* ? ------- Trouble shoot checking section --------- */
 
 /* * {
   background-color: rgb(0 100 0 / 0.1);
@@ -14,40 +14,6 @@
   box-sizing: border-box;
   list-style: none;
   text-decoration: none;
-}
-
-/* @media screen and (min-width: 2000px) {
-  .container {
-    max-width: 1500px;
-    margin: 0rem auto;
-  }
-} */
-
-body {
-  background-color: var(--color-background-grey);
-  color: var(--color-fonts);
-  -webkit-tap-highlight-color: transparent;
-}
-
-button,
-a,
-input {
-  color: var(--color-fonts);
-}
-
-.disableScroll {
-  margin: 0;
-  height: 100%;
-  overflow: hidden;
-}
-
-.--hidden {
-  display: none;
-}
-
-.--selectedBtnUi {
-  filter: invert(39%) sepia(62%) saturate(6335%) hue-rotate(207deg)
-    brightness(99%) contrast(90%);
 }
 
 /* *--------------------- Root ---------------------* */
@@ -67,8 +33,24 @@ input {
 /* *------------------ Typography -------------------* */
 
 body {
-  font-size: 62.5%;
-  /* 1rem = 10px */
+  /* ✅ FIX 1: Modern "San Francisco" style font stack */
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Helvetica, Arial, sans-serif;
+  font-size: 62.5%; /* 1rem = 10px */
+  background-color: var(--color-background-grey);
+  color: var(--color-fonts);
+  -webkit-tap-highlight-color: transparent;
+}
+
+button,
+a,
+input,
+select,
+textarea {
+  /* ✅ FIX 2: Makes all form/button fonts uniform */
+  font-family: inherit;
+  font-size: 1rem;
+  color: var(--color-fonts);
 }
 
 h1 {
@@ -84,12 +66,6 @@ h2 {
 p {
   font-size: 1rem;
   font-weight: 300;
-}
-
-input,
-a,
-button {
-  font-size: 1rem;
 }
 
 @media screen and (min-width: 1000px) {
@@ -108,12 +84,29 @@ button {
   }
 }
 
+.disableScroll {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+.--hidden {
+  display: none;
+}
+
+.--selectedBtnUi {
+  filter: invert(39%) sepia(62%) saturate(6335%) hue-rotate(207deg)
+    brightness(99%) contrast(90%);
+}
+
 /* ------------------------ App Layout --------------------------- */
 
 .app {
   display: grid;
   grid-template-columns: 1fr;
   /* grid-template-rows: 100px 100vh; */
+  height: 100%;
+  width: 100%;
 }
 
 .sideBar {
@@ -125,18 +118,7 @@ button {
   background-color: var(--color-background);
 }
 
-.app {
-  height: 100%;
-  width: 100%;
-}
-
 @media screen and (min-width: 1024px) {
-  .app {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 100px 100vh;
-  }
-
   .app {
     display: grid;
     grid-template-columns: 280px 1fr;
@@ -157,8 +139,6 @@ button {
   }
 
   .app {
-    height: 100%;
-    width: 100%;
     grid-row: 2/-1;
   }
 }
@@ -173,32 +153,30 @@ svg use {
   position: sticky;
   top: 0;
   display: flex;
-  justify-content: center;
+  /* ✅ FIX 3: Aligns search bar and burger menu */
+  justify-content: space-between;
   align-items: center;
   padding: 2rem;
   box-shadow: 5px 12px 10px rgba(107, 106, 106, 0.23);
   z-index: 4;
+  background-color: var(--color-background); /* Added for consistency */
 }
 
 @media screen and (min-width: 1024px) {
   .header {
     position: relative;
-    top: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 2rem;
-    box-shadow: 0 0 0;
+    box-shadow: none;
     z-index: 4;
   }
 }
 
 .header__search__form {
-  width: 100%;
-  height: 100%;
+  /* ✅ FIX 4: Allows search bar to fill space */
+  flex: 1;
   display: flex;
   justify-content: start;
   align-items: center;
+  margin-right: 1.5rem; /* Space next to burger */
 }
 
 .header__search .icon {
@@ -208,11 +186,11 @@ svg use {
 }
 
 .header__search {
-  width: 230px;
+  /* ✅ FIX 5: Makes search bar flexible */
+  width: 100%;
+  max-width: 450px; /* Stops it from being too wide */
   display: flex;
-  justify-content: center;
   align-items: center;
-  /* margin-left: 32px; */
   border: 1px solid rgb(203, 203, 203);
   border-radius: 8px;
 }
@@ -247,7 +225,7 @@ svg use {
 
 @media screen and (min-width: 400px) {
   .header__search {
-    width: 250px;
+    /* Kept your original media query */
   }
 }
 .sideBar-ontoggle-backdrop {
@@ -266,7 +244,6 @@ svg use {
   .sideBar-ontoggle {
     width: 280px;
     box-shadow: none;
-
     display: none;
   }
   .sideBar-ontoggle--display {
@@ -289,7 +266,7 @@ svg use {
   }
 
   .sideBar__icon svg,
-  img {
+  .sideBar__icon img {
     width: 20px;
     height: 20px;
     margin-right: 20px;
@@ -334,21 +311,14 @@ svg use {
 }
 
 .sideBar-ontoggle .logo {
-   width: 150px;   /* adjust size */
-      height: auto;   /* keeps aspect ratio */
-    }
-
-    /* Optional: Center the logo in header */
-    header {
-      text-align: center;
-      padding: 20px;
-      margin-left: 50px;
-      background-color: #f5f5f5;
+  width: 150px;
+  height: auto;
 }
 
-    
+/* ✅ DELETED the stray `header` rule that was here */
+
 .sideBar__icon svg,
-img {
+.sideBar__icon img {
   width: 20px;
   height: 20px;
   margin-right: 20px;
@@ -372,16 +342,8 @@ img {
   margin-bottom: 2rem;
 }
 
-.sideBar__dashboard:hover {
-  filter: invert(39%) sepia(62%) saturate(6335%) hue-rotate(207deg)
-    brightness(99%) contrast(90%);
-}
-
-.sideBar__inventory:hover {
-  filter: invert(39%) sepia(62%) saturate(6335%) hue-rotate(207deg)
-    brightness(99%) contrast(90%);
-}
-
+.sideBar__dashboard:hover,
+.sideBar__inventory:hover,
 .sideBar__setting:hover {
   filter: invert(39%) sepia(62%) saturate(6335%) hue-rotate(207deg)
     brightness(99%) contrast(90%);
@@ -561,16 +523,10 @@ img {
   margin-bottom: 1rem;
 }
 
-.addProModal__form__inputs input {
-  border: 1px solid var(--color-background-grey);
-  border-radius: 8px;
-  padding: 1rem;
-  width: 100%;
-  outline: none;
-}
-
+.addProModal__form__inputs input,
 .addProModal__form__inputs select,
-.addProModal__form__inputs option {
+.addProModal__form__inputs option,
+.addProModal__form__inputs textarea {
   border: 1px solid var(--color-background-grey);
   border-radius: 8px;
   padding: 1rem;
@@ -620,7 +576,8 @@ img {
     align-items: center;
   }
   .addProModal__form__inputs input,
-  .addProModal__form__inputs select {
+  .addProModal__form__inputs select,
+  .addProModal__form__inputs textarea {
     width: 82%;
   }
   .addProModal {
@@ -887,69 +844,56 @@ img {
   }
 }
 
+/* =====================================
+   FINAL, CLEANED-UP SALES STYLES
+   ===================================== */
 
-
-
-
-/* ===== SALES SECTION (Improved) ===== */
+/* This styles the main container */
 .sales-app {
-  padding: 28px;
-  background: #fff;
-  border-radius: 14px;
-  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
-  margin: 24px;
-  font-family: "Segoe UI", sans-serif;
+  padding: 2rem;
+  background: var(--color-background);
+  border-radius: 8px;
+  margin: 0; /* Already in .main container */
   font-size: 1rem;
 }
 
-.sales-app h1 {
-  font-size: 2rem;
-  font-weight: 700;
+/* This styles the form generated by sales.js */
+#salesForm {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
   margin-bottom: 20px;
-  color: #222;
-  border-bottom: 2px solid #4a90e2;
-  padding-bottom: 10px;
 }
 
-.sales-form {
-  background: #f9f9f9;
-  padding: 20px;
-  border-radius: 12px;
-  margin-bottom: 28px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.sales-form__inputs {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.sales-form label {
+#salesForm label {
   font-weight: 600;
   font-size: 1rem;
-  margin-bottom: 6px;
   color: #333;
 }
 
-.sales-form input {
+#salesForm input,
+#salesForm select,
+#salesForm textarea {
   padding: 12px 14px;
   border: 1px solid #ccc;
   border-radius: 8px;
   outline: none;
   font-size: 1rem;
+  font-family: inherit;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-.sales-form input:focus {
-  border-color: #4a90e2;
-  box-shadow: 0 0 5px rgba(74, 144, 226, 0.35);
+#salesForm input:focus,
+#salesForm select:focus,
+#salesForm textarea:focus {
+  border-color: var(--color-primary-color);
+  box-shadow: 0 0 0 3px var(--color-primary-shadow);
 }
 
-.sales-form button {
+#salesForm button {
   align-self: flex-start;
-  background: #4a90e2;
+  background: var(--color-primary-color);
   color: #fff;
   font-weight: 600;
   border: none;
@@ -960,122 +904,14 @@ img {
   font-size: 1rem;
 }
 
-.sales-form button:hover {
-  background: #357ab8;
+#salesForm button:hover {
+  opacity: 0.85;
 }
 
 /* Sales History */
-.sales-history h2 {
-  margin-bottom: 14px;
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: #222;
-}
-
-.sales-history table {
-  width: 100%;
-  border-collapse: collapse;
-  background: #fff;
-  border-radius: 10px;
-  overflow: hidden;
-  font-size: 1rem;
-}
-
-.sales-history table tr.table__title td {
-  font-weight: 700;
-  background: #f0f4f9;
-  color: #333;
-  padding: 14px;
-}
-
-.sales-history td {
-  padding: 12px 14px;
-  border: 1px solid #ddd;
-}
-
-.sales-history tr:nth-child(even) {
-  background: #fafafa;
-}
-
-
-
-
-/* General page */
-.sales-app {
-  max-width: 500px;
-  margin: 40px auto;
-  padding: 30px;
-  background-color: #ffffff; /* clean white */
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08); /* subtle shadow */
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  color: #333;
-}
-
-/* Heading */
-.sales-app h2 {
-  text-align: center;
-  color: #1E90FF; /* light blue heading */
-  margin-bottom: 20px;
-}
-
-/* Form styling */
-.sales-app form {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-.sales-app label {
-  font-weight: 500;
-  margin-bottom: 5px;
-}
-
-.sales-app input[type="number"],
-.sales-app select {
-  padding: 10px 12px;
-  border: 1px solid #d0d0d0;
-  border-radius: 8px;
-  font-size: 14px;
-  transition: border 0.2s;
-}
-
-.sales-app input[type="number"]:focus,
-.sales-app select:focus {
-  border-color: #1E90FF;
-  outline: none;
-}
-
-/* Button */
-.sales-app button[type="submit"] {
-  background-color: #1E90FF;
-  color: #fff;
-  padding: 12px;
-  border: none;
-  border-radius: 8px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.sales-app button[type="submit"]:hover {
-  background-color: #1C86EE; /* slightly darker blue on hover */
-}
-
-/* Messages */
-#salesMessage {
-  margin-top: 10px;
-  font-weight: 500;
-  text-align: center;
-}
-
-/* Sales history */
-#salesHistory {
-  margin-top: 25px;
-}
-
 #salesHistory h3 {
-  color: #1E90FF;
+  color: #000;
+  font-size: 1.5rem;
   border-bottom: 1px solid #d0d0d0;
   padding-bottom: 5px;
   margin-bottom: 10px;
@@ -1087,11 +923,43 @@ img {
 }
 
 #salesHistory li {
-  background-color: #f0f8ff; /* very light blue for items */
-  margin-bottom: 8px;
-  padding: 8px 12px;
+  background-color: #fff;
+  border: 1px solid #eee;
+  margin-bottom: 10px;
+  padding: 12px 14px;
   border-radius: 6px;
-  font-size: 14px;
+  font-size: 1.1rem; /* Kept this slightly larger */
 }
 
+/* ✅ FIX 6: This is the final, correct style for the paragraph remark */
+.history-remark {
+  /* Fixes "not the same font" */
+  font-family: inherit;
 
+  /* Fixes "inconsistent" */
+  font-size: 0.95rem;
+  font-style: italic;
+  color: #333;
+
+  /* Adds the indent and fixes "out of line" */
+  margin-top: 10px;
+  margin-left: 25px;
+  padding: 10px;
+
+  /* Makes it look nice */
+  background-color: #f8f9fa;
+  border-left: 3px solid var(--color-primary-color);
+  border-radius: 0 6px 6px 0;
+
+  /* This is the key fix for "going out of line" */
+  overflow-wrap: break-word;
+  word-break: break-all;
+}
+
+/* This is the message for "Sold..." or "Error..." */
+#salesMessage {
+  margin-top: 10px;
+  font-weight: 500;
+  text-align: center;
+  font-size: 1rem;
+}
