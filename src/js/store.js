@@ -1,5 +1,5 @@
-// PASTE THIS INTO Store.js
-
+// This is your complete, correct Store.js file
+// The ONLY CHANGE is the Date/Time fix inside sellProduct
 import Storage from "./API.js";
 
 class Store {
@@ -39,7 +39,7 @@ class Store {
   }
 
   //
-  // ✅ THIS IS THE ONE, TRUE sellProduct FUNCTION
+  // ✅ DATE/TIME FIX IS HERE
   //
   sellProduct(productId, quantity, remarks) {
     const products = this.getProducts();
@@ -48,18 +48,16 @@ class Store {
     if (!product) {
       throw new Error("Product not found");
     }
-
     if (quantity <= 0) {
       throw new Error("Quantity must be at least 1");
     }
-
     if (product.quantity < quantity) {
       throw new Error("Not enough stock available");
     }
 
     // Reduce stock
     product.quantity -= quantity;
-    this.saveProducts(products); // This calls API.js
+    this.saveProducts(products); 
 
     // Create sale record
     const sale = {
@@ -69,13 +67,11 @@ class Store {
       price: product.price,
       qty: quantity,
       total: product.price * quantity,
-      date: new Date().toLocaleString(),
-      remarks: remarks // <-- THE REMARK IS NOW ADDED
+      date: new Date().toISOString(), // <-- ✅ CHANGED to toISOString()
+      remarks: remarks 
     };
 
-    // Save sale to storage
-    Storage.saveSale(sale); // This calls API.js
-
+    Storage.saveSale(sale);
     return sale;
   }
 

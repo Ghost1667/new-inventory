@@ -3,80 +3,94 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./src/css/font.css" />
-    <link rel="stylesheet" href="./src/css/style.css" />
     <title>Inventory</title>
+    <link rel="stylesheet" href="./src/css/style.css" />
+
+    <!-- Firebase Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js" defer></script>
+    <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-auth-compat.js" defer></script>
+    <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore-compat.js" defer></script>
   </head>
   <body>
-    <div class="app container">
-      <!--------- SideBar -------->
 
-      <div class="sideBar-ontoggle --hidden">
-         <img src="ukens.png" alt="My Website Logo" class="logo">
-
-        <div class="sideBar__icons">
-          <div class="sideBar__dashboard sideBar__icon --selectedBtnUi">
-            <svg class="icon">
-              <use xlink:href="./assets/images/sprite.svg#homeIcon"></use>
-            </svg>
-            <p>Dashboard</p>
-          </div>
-          <div class="sideBar__inventory sideBar__icon">
-            <svg class="icon">
-              <use xlink:href="./assets/images/sprite.svg#productIcon"></use>
-            </svg>
-            <p>Inventory</p>
-          </div>
-          <div class="sideBar__setting sideBar__icon">
-            <img src="./assets/images/setting.svg" alt="setting icon" />
-            <p>Categories</p>
-          </div>
-          <div class="sideBar__sales sideBar__icon">
-  <svg class="icon">
-    <use xlink:href="./assets/images/sprite.svg#salesIcon"></use>
-  </svg>
-  <p>Sales</p>
-</div>
-        </div>
+    <!-- NEW LOGIN SCREEN -->
+    <div id="login-screen">
+      <div class="login-box">
+        <img src="ukens.png" alt="My Website Logo" class="logo">
+        <h1>Ukens Inventory</h1>
+        <p>Sign in to back up and sync your data.</p>
+        <button id="google-login-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8c-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4C12.955 4 4 12.955 4 24s8.955 20 20 20s20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z"></path><path fill="#FF3D00" d="m6.306 14.691l6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4C16.318 4 9.656 8.337 6.306 14.691z"></path><path fill="#4CAF50" d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238C29.211 35.091 26.715 36 24 36c-5.222 0-9.618-3.319-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44z"></path><path fill="#1976D2" d="M43.611 20.083H42V20H24v8h11.303c-.792 2.237-2.231 4.166-4.087 5.571l.003-.002l6.19 5.238C36.971 39.205 44 34 44 24c0-1.341-.138-2.65-.389-3.917z"></path></svg>
+          Sign In with Google
+        </button>
       </div>
-      <div class="sideBar-ontoggle-backdrop --hidden"></div>
+    </div>
 
-      <div class="sideBar">
-        <svg class="icon logo">
-          <use xlink:href="./assets/images/sprite.svg#logo"></use>
-        </svg>
-
+    <!-- This is your existing app. It is hidden by default. -->
+    <div class="app container --hidden">
+      
+      <!-- SideBar-ontoggle -->
+      <div class="sideBar-ontoggle --hidden">
+        <img src="ukens.png" alt="My Website Logo" class="logo">
         <div class="sideBar__icons">
           <div class="sideBar__dashboard sideBar__icon --selectedBtnUi">
-            <svg class="icon">
-              <use xlink:href="./assets/images/sprite.svg#homeIcon"></use>
-            </svg>
+            <svg class="icon"><use xlink:href="./assets/images/sprite.svg#homeIcon"></use></svg>
             <p>Dashboard</p>
           </div>
           <div class="sideBar__inventory sideBar__icon">
-            <svg class="icon">
-              <use xlink:href="./assets/images/sprite.svg#productIcon"></use>
-            </svg>
+            <svg class="icon"><use xlink:href="./assets/images/sprite.svg#productIcon"></use></svg>
             <p>Inventory</p>
           </div>
           <div class="sideBar__setting sideBar__icon">
             <img src="./assets/images/Categories.svg" alt="setting icon" />
             <p>Categories</p>
-
-            
-
           </div>
+          <div class="sideBar__sales sideBar__icon">
+            <svg class="icon"><use xlink:href="./assets/images/sprite.svg#salesIcon"></use></svg>
+            <p>Sales</p>
+          </div>
+        </div>
+        <div class="sideBar__icon" id="logout-btn-mobile">
+          <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+          <p>Logout</p>
+        </div>
+      </div>
+      <div class="sideBar-ontoggle-backdrop --hidden"></div>
+
+      <!-- sideBar -->
+      <div class="sideBar">
+        <svg class="icon logo">
+          <use xlink:href="./assets/images/sprite.svg#logo"></use>
+        </svg>
+        <div class="sideBar__icons">
+           <div class="sideBar__dashboard sideBar__icon --selectedBtnUi">
+            <svg class="icon"><use xlink:href="./assets/images/sprite.svg#homeIcon"></use></svg>
+            <p>Dashboard</p>
+          </div>
+          <div class="sideBar__inventory sideBar__icon">
+            <svg class="icon"><use xlink:href="./assets/images/sprite.svg#productIcon"></use></svg>
+            <p>Inventory</p>
+          </div>
+          <div class="sideBar__setting sideBar__icon">
+            <img src="./assets/images/Categories.svg" alt="setting icon" />
+            <p>Categories</p>
+          </div>
+          <div class="sideBar__sales sideBar__icon">
+            <svg class="icon"><use xlink:href="./assets/images/sprite.svg#salesIcon"></use></svg>
+            <p>Sales</p>
+          </div>
+        </div>
+        <div class="sideBar__icon" id="logout-btn-desktop">
+          <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+          <p>Logout</p>
         </div>
       </div>
 
-      <!--------- Header --------->
-
+      <!-- Header -->
       <header class="header">
-        <form class="header__search__form">
+         <form class="header__search__form">
           <div class="header__search">
-            <svg class="icon">
-              <use xlink:href="./assets/images/sprite.svg#search"></use>
-            </svg>
+            <svg class="icon"><use xlink:href="./assets/images/sprite.svg#search"></use></svg>
             <input
               type="text"
               placeholder="Search product"
@@ -91,61 +105,28 @@
         />
       </header>
 
-      <div class="main"></div>
-
-      <!-------- Main App (Inventory)-------->
-      <!-- <div class="inventory-app">
-          <div class="product-section__header">
-            <h1>Products</h1>
-            <div class="product-section__header__buttons">
-              <div class="addProBtn">Add Product</div>
-              <div class="filterBtn">
-                <img src="./assets/images/filterIcon.svg" alt="filter Icon" />
-                <p>Filters</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="product-section">
-            <table>
-              <tr class="table__title">
-                <td>Products</td>
-                <td>Quantity</td>
-                <td>Price</td>
-                <td>Availability</td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>FIRST COLUMN</td>
-                <td>SECOND COLUMN</td>
-                <td>THIRD COLUMN</td>
-                <td>FOURTH COLUMN</td>
-                <td class="editTableSection">
-                  <div class="table__icons">
-                    <div class="editIcon">
-                      <svg class="icon">
-                        <use
-                          xlink:href="./assets/images/sprite.svg#editIcon"
-                        ></use>
-                      </svg>
-                    </div>
-                    <div class="deleteIcon">
-                      <img src="./assets/images/deleteIcon.svg" alt="" />
-                    </div>
-                  </div>
-                </td>
-              </tr>
-            </table>
-          </div>
-        </div> -->
-
+      <!-- Main -->
+      <div class="main">
+        <div class="dashboardUi">
+          <!-- Dashboard HTML will be injected here -->
+        </div>
+        <div class="inventory-app --hidden">
+          <!-- Inventory HTML will be injected here -->
+        </div>
+        <div class="categoryUi --hidden">
+          <!-- Category HTML will be injected here -->
+        </div>
+        <div class="sales-app --hidden">
+          <!-- Sales HTML will be injected here -->
+        </div>
+      </div> <!-- End of .main -->
 
       <!-- add Product -->
       <div class="addProSection --hidden">
         <div class="addProModal">
           <h1 class="addProModal__title">New Product</h1>
           <form class="addProModal__form">
-            <div class="addProModal__form__inputs">
+             <div class="addProModal__form__inputs">
               <p>Product Name</p>
               <input
                 type="text"
@@ -184,36 +165,9 @@
         </div>
       </div>
 
-      <!-------- Categoty Ui ---------------->
-      <!-- <div class="categoryUi">
-          <div class="category__header">
-            <h1>Categories</h1>
-            <button class="addCategoryBtn">Add Category</button>
-          </div>
-          <div class="category__items">
-            <div class="category__item">
-              <div class="category__item__text">
-                <h2 class="title">Cateogry 1</h2>
-                <p class="description">
-                  jfdjkjdksjkfldsjfdks f dkfjddfj klf jdkf djkdfj k
-                </p>
-              </div>
-              <div class="category__item__icons">
-                <svg class="icon editCategoryIcon">
-                  <use xlink:href="./assets/images/sprite.svg#editIcon"></use>
-                </svg>
-                <img
-                  src="./assets/images/deleteIcon.svg"
-                  alt="delete Icon"
-                  class="deleteBtnCategory"
-                />
-              </div>
-            </div>
-          </div>
-        </div> -->
-
+      <!-- EditCategorySection -->
       <div class="EditCategorySection --hidden">
-        <div class="EditCatMod">
+         <div class="EditCatMod">
           <h1 class="EditCatMod__title">Edit Product</h1>
           <form class="EditCatMod__form">
             <input
@@ -228,7 +182,6 @@
               id="editDescription"
               placeholder="Edit Description"
             />
-
             <div class="EditCatMod__btns">
               <button class="cancelBtnEdit">Discard</button>
               <button class="submitBtnEdit">Submit</button>
@@ -237,77 +190,15 @@
         </div>
       </div>
 
-      <!--------------------------  Dashboard View(Ui)   ------------------------------->
-      <!-- <div class="dashboardUi">
-          <div class="dashboardUi__header">
-            <h1>Overview</h1>
-          </div>
-          <div class="dashboardUi__main">
-            <div class="dashboardUi__main__items">
-              <img src="./assets/images/Quantity.svg" alt="quantity" />
-              <p class="dashboardUi__quantity">868</p>
-              <p>Quantity in Hand</p>
-            </div>
-
-            <div class="dashboardUi__main__items">
-              <img src="./assets/images/Sales.svg" alt="salesItem" />
-              <p class="dashboardUi__sales">$1434</p>
-              <p>Total Value in Hand</p>
-            </div>
-
-            <div class="dashboardUi__main__items">
-              <img src="./assets/images/Cancel.svg" alt="Cancel Item" />
-              <p class="dashboardUi__notAvailable">32</p>
-              <p>Not availabales</p>
-            </div>
-
-            <div class="dashboardUi__main__items">
-              <img src="./assets/images/Categoriescolor.svg" alt="category" />
-              <p class="dashboardUi__notAvailable">54</p>
-              <p>Total Categories</p>
-            </div>
-          </div>
-        </div> -->
     </div>
 
-    <div class="sales-app --hidden">
-  <div class="sales-section">
-    <div class="product-section__header">
-      <h1>Sales</h1>
-    </div>
-
-    <form id="salesForm" class="sales-form">
-      <div class="sales-form__inputs">
-        <label for="productName">Product Name:</label>
-        <input type="text" id="productName" required />
-
-        <label for="quantitySold">Quantity Sold:</label>
-        <input type="number" id="quantitySold" required />
-      </div>
-      <button type="submit" class="addProBtn">Record Sale</button>
-
-      <label for="salesRemarks">Remarks:</label>
-    <textarea
-      id="salesRemarks"
-      placeholder="Add any notes for this sale"
-      rows="3"
-    ></textarea>
-    </form>
-
-    <div class="sales-history">
-      <h2>Sales History</h2>
-      <table id="salesTable">
-        <tr class="table__title">
-          <td>Product</td>
-          <td>Quantity</td>
-          <td>Date</td>
-        </tr>
-      </table>
-    </div>
-  </div>
-</div>
-
-
-    <script src="./src/js/app.js" type="module"></script>
+    <!-- 
+      ✅✅✅
+      THIS IS THE FIX!
+      We ONLY load auth.js. It will import app.js when it's ready.
+      ✅✅✅
+    -->
+    <script src="./src/js/auth.js" type="module"></script>
+    
   </body>
 </html>
